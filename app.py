@@ -26,6 +26,8 @@ def result():
         # Predict the price 
         price = predict_price(name,item_condition_id,category_name,brand_name,shipping,item_description)
         return render_template("price-prediction.html", price=price)
+    else:
+        return render_template("price-prediction.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
