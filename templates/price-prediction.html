@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Mercari Price Prediction</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <div class="container">
+        <div class="row">
+          <div class="col">
+      
+            <h1>Mercari Price Prediction</h1>
+            <hr>
+      
+            <form action="/" method="POST">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+              </div>
+      
+              <div class="form-group">
+                <label>Item Condition</label>
+                <input type="email" class="form-control" id="item_condition_id" name="item_condition_id" placeholder="Enter Item Condition ID">
+              </div>
+      
+              <div class="form-group">
+                <label>Category Name</label>
+                <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Category Name">
+              </div>
+              
+              <div class="form-group">
+                <label>Brand Name</label>
+                <input type="text" class="form-control" id="brand_name" name="brand_name" placeholder="Enter Brand Name">
+              </div>
+
+              <div class="form-group">
+                <label>Shipping</label>
+                <input type="text" class="form-control" id="shipping" name="shipping" placeholder="Enter Shipping">
+              </div>
+      
+              <div class="form-group">
+                <label>Item Description</label>
+                <input type="text" class="form-control" id="item_description" name="item_description" placeholder="Enter Item Description">
+              </div>
+
+              <button type="Predict Price" class="btn btn-primary">Predict Price</button>
+              
+              <div class="form-group">
+                <label>Predicted Price</label>
+                <input name="prediction" readonly="" type="text" value={{ price }} />
+              </div>
+              
+            </form>
+      
+          </div>
+        </div>
+      </div>
+    
+    {% endblock %}
+  </body>
+</html>
+
