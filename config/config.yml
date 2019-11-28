@@ -1,0 +1,17 @@
+# General Configurations
+batch_size: 32
+learning_rate: 2e-4
+num_epochs: 100
+num_iters: 10000
+is_Train:  1
+grad_clip: 1
+num_units: 512
+sent2vecdim: 600
+num_categories: 1354
+cat_dim: 300
+num_brands: 6312
+brand_dim: 300
+std: 0.02
+restore: 0
+mode: "train"
+dataset: "mercari-price-prediction"

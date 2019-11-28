@@ -31,7 +31,6 @@ class SimpleModel:
         return res
 
     def build_graph(self):
-
         self.graph = tf.Graph()
         with(self.graph.as_default()):
             self.name = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,self.args.sent2vecdim))
