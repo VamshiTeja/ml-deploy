@@ -35,12 +35,14 @@ test_data  = fill_missing_data(test_data)
 # Encode categorical variables
 le_cat = preprocessing.LabelEncoder()
 le_cat.fit(list(np.unique(list(train_data.category_name)+ list(test_data.category_name))))
+print("number of unique categories: ", len(list(np.unique(list(train_data.category_name)+ list(test_data.category_name)))))
 # train_data.category_name = le_cat.transform(train_data.category_name)
 # test_data.category_name = le_cat.transform(test_data.category_name)
 # print("Category Labels Encoded!")
 
 le_brand = preprocessing.LabelEncoder()
 le_brand.fit(list(np.unique(list(train_data.brand_name)+ list(test_data.brand_name))))
+print ("number of unique brands: ", len(list(np.unique(list(train_data.brand_name)+ list(test_data.brand_name)))))
 # train_data.brand_name = le_brand.transform(train_data.brand_name)
 # test_data.brand_name = le_brand.transform(test_data.brand_name)
 # print("Brand Labels Encoded!")
@@ -92,8 +94,8 @@ def get_data(datadf, model, le_cat, le_brand, is_train=True):
         X = {
             'name' : name_embs,
             'item_condition_id' : np.array(datadf.item_condition_id),
-            'category_name' : np.array(le_cat.transform(datadf.category_name)),
-            'brand_name'  : np.array(le_brand.transform(datadf.brand_name)),
+            'category_name' : le_cat.transform(datadf.category_name),
+            'brand_name'  : le_brand.transform(datadf.brand_name),
             'shipping' : np.array(datadf.shipping),
             'item_description' : des_embs
         }

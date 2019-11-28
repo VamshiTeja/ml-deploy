@@ -17,7 +17,7 @@ class SimpleModel:
         with tf.variable_scope("model"):
             name = tf.layers.dense(name, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
             item_desc = tf.layers.dense(item_desc, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
-            item_cond_id = tf.layers.dense(item_cond_id, units=self.args.num_units,activation=tf.nn.relune, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
+            item_cond_id = tf.layers.dense(item_cond_id, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
             cat_name = tf.layers.dense(cat_name, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
             brand_name = tf.layers.dense(brand_name, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
             shipping = tf.layers.dense(shipping, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
@@ -42,14 +42,14 @@ class SimpleModel:
             self.target_price = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size, 1))
 
             # category embeddings
-            self.category_name = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size))
+            self.category_id = tf.placeholder(dtype=tf.int32, shape=(self.args.batch_size))
             self.cat_embedding = tf.Variable(tf.random_uniform([self.args.num_categories, self.args.cat_dim], -1, 1))
-            self.category = tf.nn.embedding_lookup(self.cat_embedding, self.category_name)
+            self.category = tf.nn.embedding_lookup(self.cat_embedding, self.category_id)
 
             # brand embeddings
-            self.brand_name = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,self.args.cont_dim))
+            self.brand_id = tf.placeholder(dtype=tf.int32, shape=(self.args.batch_size))
             self.brand_embedding = tf.Variable(tf.random_uniform([self.args.num_brands, self.args.brand_dim], -1, 1))
-            self.brand = tf.nn.embedding_lookup(self.brand_embedding, self.brand_name)
+            self.brand = tf.nn.embedding_lookup(self.brand_embedding, self.brand_id)
 
             self.pred_price = self.model(self.name, self.item_description, self.item_condition_id, self.category, self.brand, self.shipping)
 
@@ -61,11 +61,11 @@ class SimpleModel:
                 self.opt = tf.train.AdamOptimizer(self.args.learning_rate,beta1=0.5).minimize(self.loss)
             else:
                 grads, _ = tf.clip_by_global_norm(tf.gradients(self.loss, theta), 5)
-				opti = tf.train.AdamOptimizer(self.args.learning_rate,beta1=0.5)
-				self.opt= opti.apply_gradients(zip(grads, theta), global_step=self.global_step)
+                opti = tf.train.AdamOptimizer(self.args.learning_rate,beta1=0.5)
+                self.opt= opti.apply_gradients(zip(grads, theta), global_step=self.global_step)
 
             tf.summary.scalar('loss',self.loss)  
 
             self.initial_op = tf.global_variables_initializer()
-			self.summary_op = tf.summary.merge_all()
-			self.saver = tf.train.Saver(tf.all_variables(), max_to_keep=5, keep_checkpoint_every_n_hours=1)
+            self.summary_op = tf.summary.merge_all()
+            self.saver = tf.train.Saver(tf.all_variables(), max_to_keep=5, keep_checkpoint_every_n_hours=1)
