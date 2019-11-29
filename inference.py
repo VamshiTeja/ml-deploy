@@ -12,7 +12,7 @@ import tensorflow.contrib.layers as layers
 import pickle
 
 from model.SimpleModel import SimpleModel
-from utils import load_batched_data, dotdict
+from utils import load_batched_data, load_data
 from config import cfg, cfg_from_file
 os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 
@@ -34,24 +34,7 @@ class Inference:
                     feed_dict={self.model.name: test_tuple[0], self.model.item_condition_id:test_tuple[1], self.model.category_id:test_tuple[2], 
                         self.model.brand_id:test_tuple[3], self.model.shipping:test_tuple[4], self.model.item_description:test_tuple[5], 
                         self.model.target_price:test_tuple[-1]})
-        return pred_price, loss
-
-def load_data(datapath, is_Train=True):
-        with open(datapath, 'rb') as handle:
-            data = pickle.load(handle)
-        
-        names = data['name']
-        item_condition_id = data['item_condition_id']
-        category_name = data['category_name']
-        brand_name    = data['brand_name']
-        shipping     = data['shipping']
-        item_description = data['item_description']
-
-        if(is_Train):
-            price = data['price']
-            return (names, item_condition_id, category_name, brand_name, shipping, item_description, price)
-        else:
-            return (names, item_condition_id, category_name, brand_name, shipping, item_description)
+        return pred_price[0][0], loss
 
 if __name__ == '__main__':
 
