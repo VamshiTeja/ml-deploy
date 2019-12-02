@@ -34,11 +34,6 @@ def load_batched_data(data,batch_size, cfg):
             end += batch_size
             yield (batchInputs_name,batchInputs_item_condition,batchInputs_category,batchInputs_brand,batchInputs_shipping,batchInputs_item_description,batchInputs_price)
 
-class dotdict(dict):
-    __getattr__ = dict.get
-    __setattr__ = dict.__setitem__
-    __delattr__ = dict.__delitem__
-
 def load_data(datapath, is_Train=True):
         with open(datapath, 'rb') as handle:
             data = pickle.load(handle)

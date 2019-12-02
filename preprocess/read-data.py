@@ -36,6 +36,8 @@ test_data  = fill_missing_data(test_data)
 le_cat = preprocessing.LabelEncoder()
 le_cat.fit(list(np.unique(list(train_data.category_name)+ list(test_data.category_name))))
 print("number of unique categories: ", len(list(np.unique(list(train_data.category_name)+ list(test_data.category_name)))))
+with open('category_encoding.pickle', 'wb') as handle:
+    pickle.dump(le_cat, handle, protocol=pickle.HIGHEST_PROTOCOL)
 # train_data.category_name = le_cat.transform(train_data.category_name)
 # test_data.category_name = le_cat.transform(test_data.category_name)
 # print("Category Labels Encoded!")
@@ -43,6 +45,8 @@ print("number of unique categories: ", len(list(np.unique(list(train_data.catego
 le_brand = preprocessing.LabelEncoder()
 le_brand.fit(list(np.unique(list(train_data.brand_name)+ list(test_data.brand_name))))
 print ("number of unique brands: ", len(list(np.unique(list(train_data.brand_name)+ list(test_data.brand_name)))))
+with open('brand_encoding.pickle', 'wb') as handle:
+    pickle.dump(le_brand, handle, protocol=pickle.HIGHEST_PROTOCOL)
 # train_data.brand_name = le_brand.transform(train_data.brand_name)
 # test_data.brand_name = le_brand.transform(test_data.brand_name)
 # print("Brand Labels Encoded!")

@@ -12,9 +12,10 @@ import os,sys
 class SimpleModel:
     def __init__(self,args):
         self.args = args
+        self.reuse_var = False
 
     def model(self,name,item_desc, item_cond_id, cat_name, brand_name, shipping):
-        with tf.variable_scope("model"):
+        with tf.variable_scope("model", reuse=self.reuse_var):
             name = tf.layers.dense(name, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
             item_desc = tf.layers.dense(item_desc, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
             item_cond_id = tf.layers.dense(item_cond_id, units=self.args.num_units,activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
@@ -28,6 +29,7 @@ class SimpleModel:
             fc2 = tf.layers.dense(fc1, units=512, activation=tf.nn.relu, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
 
             res = tf.layers.dense(fc2, units=1, activation=None, kernel_initializer=tf.truncated_normal_initializer(stddev=0.02))
+        self.reuse_var = True
         return res
 
     def build_graph(self):
