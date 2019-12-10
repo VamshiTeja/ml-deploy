@@ -8,11 +8,10 @@ sys.path.append("../model")
 import numpy as np
 
 import tensorflow as tf 
-import tensorflow.contrib.layers as layers
 import pickle
 
 from model.SimpleModel import SimpleModel
-from utils import load_batched_data, dotdict, load_data
+from utils import load_batched_data, load_data
 from config import cfg, cfg_from_file
 os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 

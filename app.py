@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 from contextlib import contextmanager
 import time
+from config import cfg, cfg_from_file
 app = Flask(__name__)
 
 def predict_price(a,b,c,d,e,f):
@@ -20,7 +21,7 @@ def process_incoming_data(data):
 def preload():
     global predictor, data_processor
     predictor = Inference()
-    data_processor = DataProcessor('sent2vec/wiki_unigrams.bin',"preprocess/category_encoding.pickle", "preprocess/brand_encoding.pickle")
+    data_processor = DataProcessor(cfg.category_model_dir, cfg.brand_model_dir)
     
 @contextmanager
 def timer(name):

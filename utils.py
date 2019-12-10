@@ -13,12 +13,12 @@ def load_batched_data(data,batch_size, cfg):
     name, item_condition, category, brand, shipping, item_description, price = data
 
     while(end<=num_samples):
-        batchInputs_name = np.zeros((batch_size,cfg.sent2vecdim))
+        batchInputs_name = np.zeros((batch_size,cfg.embed_dim))
         batchInputs_item_condition = np.zeros((batch_size,1))
         batchInputs_category = np.zeros((batch_size))
         batchInputs_brand = np.zeros((batch_size))
         batchInputs_shipping = np.zeros((batch_size,1))
-        batchInputs_item_description = np.zeros((batch_size,cfg.sent2vecdim))
+        batchInputs_item_description = np.zeros((batch_size,cfg.embed_dim))
         batchInputs_price = np.zeros((batch_size,1))
 
         for batchI, origI in enumerate(randIxs[start:end]):

@@ -1,2 +1,9 @@
+# tensorflow==1.13.2
+tensorflow_hub
 pandas
 sklearn
+numpy
+flask
+pickle-mixin
+easydict
+cython

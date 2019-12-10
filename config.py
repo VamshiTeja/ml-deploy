@@ -12,7 +12,7 @@ root.num_iters = 10000
 root.is_Train = 1
 root.grad_clip = 1
 root.num_units = 512
-root.sent2vecdim = 600
+root.embed_dim = 512
 root.num_categories = 1354
 root.cat_dim = 300
 root.num_brands = 6312
@@ -21,6 +21,9 @@ root.std = 0.02
 root.restore = 0
 root.mode = "train"
 root.dataset = "mercari-price-prediction"
+
+root.brand_model_dir = "saved_models/brand_encoding.pickle"
+root.category_model_dir = "saved_models/category_encoding.pickle"
 
 def _merge_a_into_b(a, b):
     """

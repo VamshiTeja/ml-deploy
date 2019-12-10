@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np 
 from sklearn import preprocessing
 import pickle
-
+import tensorflow as tf
+import tensorflow_hub as hub
 import sent2vec
 
 TRAIN_DIR = "../data/train.tsv"
@@ -14,10 +15,14 @@ TEST_DIR  = "../data/test_stg2.tsv"
 cols = ["train_id", "name", "item_condition_id", "category_name", "brand_name", "price", "shipping", "item_description"]
 test_cols = ["train_id", "name", "item_condition_id", "category_name", "brand_name", "shipping", "item_description"]
 
+module_url = "https://tfhub.dev/google/universal-sentence-encoder/2" #@param ["https://tfhub.dev/google/universal-sentence-encoder/2", "https://tfhub.dev/google/universal-sentence-encoder-large/3"]
+
 print("Loading Training Data ...")
 train_data = pd.read_csv(TRAIN_DIR, sep="\t",encoding = "utf-8", names=cols, skiprows=1)
+train_data = train_data[0:20000]
 print("Loading Testing Data ...")
 test_data = pd.read_csv(TEST_DIR, sep="\t",encoding = "utf-8", names=test_cols, skiprows=1)
+test_data = test_data[0:20000]
 # print (train_data.isnull().any())
 # print(test_data.isnull().any())
 
@@ -68,11 +73,34 @@ with open('brand_encoding.pickle', 'wb') as handle:
 # vocab_dict = dict(zip(vocab_list, range(len(vocab))))
 # vocab_inverse_dict = dict(zip(range(len(vocab), vocab_list)))
 
-print("Loading Sent2vec Model ...")
-model = sent2vec.Sent2vecModel()
-model.load_model('../sent2vec/wiki_unigrams.bin')
-emb = model.embed_sentence("once upon a time .") 
+# print("Loading Sent2vec Model ...")
+# model = sent2vec.Sent2vecModel()
+# model.load_model('../sent2vec/wiki_unigrams.bin')
+# emb = model.embed_sentence("once upon a time .") 
+train_data.fillna('missing', inplace=True)
+embed = hub.Module(module_url)
+desc_embeddings = []
+name_embeddings = []
+with tf.Session() as session:
+    session.run([tf.global_variables_initializer(), tf.tables_initializer()])
+    for i in range(0, len(list(train_data.item_description)), 10000):
+        desc_embedding = session.run(embed(list(train_data.item_description[i:i+10000])))
+        desc_embeddings.append(desc_embedding.tolist())
+    # desc_embedding = session.run(embed(list(train_data.item_description[i:])))
+    # desc_embeddings.append(desc_embedding.tolist())
 
+    for i in range(0, len(list(train_data.name)), 10000):
+        name_embedding = session.run(embed(list(train_data.name[i:i+10000])))
+        name_embeddings.append(name_embedding.tolist())
+    # name_embedding = session.run(embed(list(train_data.name[i:])))
+    # name_embeddings.append(name_embedding.tolist())
+names = np.array(name_embeddings)
+name_embeddings = np.reshape(name_embeddings, (20000, 512))
+
+desc_embeddings = np.array(desc_embeddings)
+desc_embeddings = np.reshape(desc_embeddings, (20000, 512))
+print(name_embeddings)
+print(len(desc_embeddings))
 # print("Converting names to embeddings ...")
 # embs = model.embed_sentences(list(train_data.name))
 
@@ -81,39 +109,39 @@ emb = model.embed_sentence("once upon a time .")
 # print(embs.shape)
 
 
-def get_data(datadf, model, le_cat, le_brand, is_train=True):
-    name_embs = model.embed_sentences(list(datadf.name))
-    des_embs = model.embed_sentences(list(datadf.item_description))
+def get_data(datadf, le_cat, le_brand, is_train=True):
+    # name_embs = model.embed_sentences(list(datadf.name))
+    # des_embs = model.embed_sentences(list(datadf.item_description))
     if(is_train):
         X = {
-            'name' : name_embs,
+            'name' : name_embeddings,
             'item_condition_id' : np.array(datadf.item_condition_id),
             'category_name' : np.array(le_cat.transform(datadf.category_name)),
             'brand_name'  : np.array(le_brand.transform(datadf.brand_name)),
             'price' : np.array(datadf.price),
             'shipping' : np.array(datadf.shipping),
-            'item_description' : des_embs
+            'item_description' : desc_embeddings
         }
     else:
         X = {
-            'name' : name_embs,
+            'name' : name_embeddings,
             'item_condition_id' : np.array(datadf.item_condition_id),
             'category_name' : le_cat.transform(datadf.category_name),
             'brand_name'  : le_brand.transform(datadf.brand_name),
             'shipping' : np.array(datadf.shipping),
-            'item_description' : des_embs
+            'item_description' : desc_embeddings
         }
     return X
 
 print("Preparing Training Data ...")
-train = get_data(train_data, model, le_cat, le_brand )
-test = get_data(test_data, model, le_cat, le_brand,is_train=False)
+train = get_data(train_data, le_cat, le_brand )
+# test = get_data(test_data, model, le_cat, le_brand,is_train=False)
 
 with open('train.pickle', 'wb') as handle:
     pickle.dump(train, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-with open('test.pickle', 'wb') as handle:
-    pickle.dump(test, handle, protocol=pickle.HIGHEST_PROTOCOL)
+# with open('test.pickle', 'wb') as handle:
+#     pickle.dump(test, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 # with open('filename.pickle', 'rb') as handle:
 #     b = pickle.load(handle)

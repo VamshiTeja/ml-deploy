@@ -35,8 +35,8 @@ class SimpleModel:
     def build_graph(self):
         self.graph = tf.Graph()
         with(self.graph.as_default()):
-            self.name = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,self.args.sent2vecdim))
-            self.item_description = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,self.args.sent2vecdim))
+            self.name = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,self.args.embed_dim))
+            self.item_description = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,self.args.embed_dim))
             self.item_condition_id = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,1))
             self.shipping = tf.placeholder(dtype=tf.float32, shape=(self.args.batch_size,1))
 
