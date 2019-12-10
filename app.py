@@ -29,6 +29,10 @@ def timer(name):
     yield
     print("{} done in {}s".format(name, time.time() - t0))
 
+@app.route("/hello", methods=["POST", "GET"])
+def hello():
+    return "Hello World"
+
 @app.route("/", methods=["POST"])
 def result():
     global predictor, data_processor
@@ -53,4 +57,4 @@ def result():
 if __name__ == "__main__":
     with timer("Preload Model"):
         preload()
-    app.run(debug=True)
+    app.run(host= '0.0.0.0',debug=True, port=cfg.port)

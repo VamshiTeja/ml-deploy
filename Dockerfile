@@ -29,28 +29,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
 
-COPY ./requirements.txt /requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
-WORKDIR /
+
 # RUN python3-pip install --upgrade python3-pip
 RUN apt-get install python3
 RUN pip3 install -r requirements.txt 
 RUN pip3 install tensorflow==1.13.2
 
-COPY ./config /config
-COPY ./checkpoints /checkpoints/
-COPY ./model /model
-COPY ./templates /templates
-COPY ./saved_models /saved_models/
+COPY ./config /app/config
+COPY ./checkpoints /app/checkpoints/
+COPY ./model /app/model
+COPY ./templates /app/templates
+COPY ./saved_models /app/saved_models/
 
-COPY ./config.py /config.py
-COPY ./utils.py /utils.py
-COPY ./inference.py /inference.py
-COPY ./train.py /train.py
-COPY app.py /app.py
+COPY ./config.py /app/config.py
+COPY ./utils.py /app/utils.py
+COPY ./inference.py /app/inference.py
+COPY ./train.py /app/train.py
+COPY ./app.py /app/app.py
 
-# # RUN pip install sent2vec
 EXPOSE 5000
 
-CMD python app.py
+ENTRYPOINT [ "python" ]
+CMD ["app.py"]

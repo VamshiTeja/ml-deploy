@@ -4,6 +4,5 @@ pandas
 sklearn
 numpy
 flask
-pickle-mixin
 easydict
 cython

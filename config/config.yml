@@ -16,5 +16,7 @@ restore: 0
 mode: "train"
 dataset: "mercari-price-prediction"
 
+port: '5000'
+
 brand_model_dir: "saved_models/brand_encoding.pickle"
 category_model_dir: "saved_models/category_encoding.pickle"
