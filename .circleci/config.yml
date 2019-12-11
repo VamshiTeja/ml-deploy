@@ -58,7 +58,7 @@ workflows:
     jobs:
       - build
       - test
-      - deploy_master
+      - deploy_master:
           requires:
             - build
             - test
