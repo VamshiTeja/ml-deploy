@@ -30,3 +30,9 @@ jobs:
             . venv/bin/activate
             pytest
  
+
+workflows:
+    ml-deploy:
+        jobs:
+        - build
+        - test
