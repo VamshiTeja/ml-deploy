@@ -30,7 +30,7 @@ python inference.py
 python app.py
 ```
 
-# CI and CD
+## CI and CD
 This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD)
 
 ## Deployment
