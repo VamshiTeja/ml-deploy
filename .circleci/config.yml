@@ -1,18 +1,23 @@
 version: 2
+
 orbs:
     gcp-gke: circleci/gcp-gke@0.2.0
     gcr: circleci/gcp-gcr@0.0.2
     
 executors:
-    python3:
-      docker: 
-        - image: circleci/python:3.7.3
+    python:
+        docker: 
+        -image: circleci/python:3.7.3
 jobs:
   build:
-    executor: python3
+    docker:
+      - image: circleci/python:3.7.3
+
     working_directory: ~/repo
+
     steps:
       - checkout
+
       - run:
           name: install dependencies
           command: |
@@ -21,9 +26,11 @@ jobs:
             pip install -r requirements.txt
 
   test:
-    executor: python3
+    docker:
+      - image: circleci/python:3.7.3
+
     working_directory: ~/repo
-    description: Run pytest
+
     steps:
       - checkout
       - run:
