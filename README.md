@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```
 
 ## Run 
-All the configurations are in a single place: "./config/config.yml". 
+All the configurations are in a single place: "./config/config.yml". <br/>
 Modify as necessary and run Train/Inference/Flask files.
 
 ### Train
