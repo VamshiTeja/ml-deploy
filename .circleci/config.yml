@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 orbs:
     gcp-gke: circleci/gcp-gke@0.2.0
@@ -29,7 +29,6 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
- 
 
 workflows:
   ml-deploy:
