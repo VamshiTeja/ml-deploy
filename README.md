@@ -13,7 +13,8 @@ pip install -r requirements.txt
 ```
 
 ## Run 
-All the configurations are in a single place: ./config/config.yml. Modify as necessary and run Train/Inference/Flask files.
+All the configurations are in a single place: "./config/config.yml". 
+Modify as necessary and run Train/Inference/Flask files.
 
 ### Train
 ```bash
@@ -32,7 +33,9 @@ python app.py
 
 ### Create Custom Models
 
-You can easily create custom models with the current setup. Just create new model in models/$custom_model.py with format similar to models/SimpleModel.py. Please raise an issue if you face any difficulty!
+You can easily create custom models with the current setup. Just create new model in "models/$custom_model.py" with format similar to "models/SimpleModel.py". 
+
+Please raise an issue if you face any difficulty!
 
 ## Deployment
 Setup your gcloud project ($GCLOUD_PROJECT_NAME) and set up GCR for that project
@@ -58,3 +61,7 @@ kubectl logs $POD_NAME
 
 ## CI and CD
 This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD)
+
+## TODO 
+-[ ] Integrate with Tensorflow serving API
+-[ ] Improve init time for Flask Server
