@@ -6,7 +6,7 @@ orbs:
 executors:
     python3:
       docker: 
-      - image: circleci/python:3.7.3
+        - image: circleci/python:3.7.3
 jobs:
   build:
     executor: python3
