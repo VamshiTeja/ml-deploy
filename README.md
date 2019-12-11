@@ -30,11 +30,19 @@ python inference.py
 python app.py
 ```
 
-## CI and CD
-This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD)
+### Create Custom Models
+
+You can easily create custom models with the current setup. Just create new model in models/$custom_model.py with format similar to models/SimpleModel.py. Please raise an issue if you face any difficulty!
 
 ## Deployment
-Setup your project in gcloud and create container named "ml-deploy". Then run the following command
+Setup your gcloud project ($GCLOUD_PROJECT_NAME) and set up GCR for that project
+First build the docker image and push it to Google Container Registery (GCR)
+```bash
+docker build -t gcr.io/$GCLOUD_PROJECT_NAME/ml-deploy:v1 .
+docker push gcr.io/$GOOGLE_PROJECT_NAME/ml-deploy:v1
+```
+
+create container named "ml-deploy" in google cloud project ($GCLOUD_PROJECT_NAME). Then run the following kubectl commands
 ```bash
 kubectl apply -f kubernetes/
 ```
@@ -47,3 +55,6 @@ You can check the logs of pods using
 kubectl get pods
 kubectl logs $POD_NAME
 ```
+
+## CI and CD
+This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD)
