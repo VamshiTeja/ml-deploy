@@ -32,7 +32,7 @@ jobs:
  
 
 workflows:
-    ml-deploy:
-        jobs:
-        - build
-        - test
+  ml-deploy:
+    jobs:
+      - build
+      - test
