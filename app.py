@@ -7,10 +7,6 @@ import time
 from config import cfg, cfg_from_file
 app = Flask(__name__)
 
-def predict_price(a,b,c,d,e,f):
-    # TODO Move to model/inference.py later
-    return 3000
-
 @app.route("/")
 def home():
     return render_template("price-prediction.html")
@@ -57,4 +53,4 @@ def result():
 if __name__ == "__main__":
     with timer("Preload Model"):
         preload()
-    app.run(host= '0.0.0.0',debug=True, port=cfg.port)
+    app.run(host=cfg.host,debug=True, port=cfg.port)

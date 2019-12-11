@@ -22,6 +22,7 @@ root.restore = 0
 root.mode = "train"
 root.dataset = "mercari-price-prediction"
 
+root.host = '0.0.0.0'
 root.port = '5000'
 
 root.brand_model_dir = "saved_models/brand_encoding.pickle"

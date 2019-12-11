@@ -22,7 +22,6 @@ class Inference:
         # batch size is 1 for prediction
         cfg.batch_size = 1
         self.model = SimpleModel(cfg)
-        print("[INFO]: Building Graph ...")
         self.model.build_graph()
         self.sess = tf.InteractiveSession(graph=self.model.graph)
         self.sess.run(self.model.initial_op)
@@ -66,8 +65,6 @@ class DataProcessor:
 
 if __name__ == '__main__':
     tester = Inference()
-    # test_data = load_data("preprocess/train.pickle")
-    # test_data = next(load_batched_data(test_data,1,cfg))
     name = "MLB Cincinnati Reds T Shirt Size XL"
     item_cond = "3"
     cat_name = "Men/Tops/T-shirts"
@@ -75,7 +72,7 @@ if __name__ == '__main__':
     shipping = "1"
     item_desc = "No description yet"
     data = (name, item_cond, cat_name, brand_name, shipping, item_desc)
-    pro = DataProcessor("preprocess/category_encoding.pickle", "preprocess/brand_encoding.pickle")
+    pro = DataProcessor(cfg.category_model_dir, cfg.brand_model_dir)
     test_data = pro.process(data)
     pred_price = tester.make_prediction(test_data)
     print(pred_price)
