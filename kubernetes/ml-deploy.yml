@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-deploy
+spec:
+  selector:
+    matchLabels:
+      app: ml-deploy
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: ml-deploy
+        tier: backend
+    spec:
+      containers:
+        - name: ml-deploy
+          image: gcr.io/kouzoh-p-vamshi-teja/ml-deploy:v1
+        #   command: [ "python","app.py" ]
+        #   resources:
+        #     limits:
+        #       cpu: "2"
+        #     requests:
+        #       cpu: "0.8"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              name: backend-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-deploy-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: backend-port
+  selector:
+    app: ml-deploy
+    tier: backend
