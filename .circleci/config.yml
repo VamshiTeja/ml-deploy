@@ -18,6 +18,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+
   test:
     docker:
       - image: circleci/python:3.7.3
@@ -27,9 +28,31 @@ jobs:
       - run:
           name: run tests
           command: |
+            python3 -m venv venv
             . venv/bin/activate
             pytest
 
+  deploy_master:
+    description: Deploy application to Google Kubernetes Engine after pushing to GCR
+    machine: true
+    steps:
+      - checkout
+      - gcr/gcr-auth
+      - gcr/build-image:
+          image: ml-deploy
+          tag: "v1"
+      - gcr/push-image:
+          image: ml-deploy
+          tag: "v1"
+      - gcp-gke/install
+      - gcp-gke/init
+      - gcp-gke/rollout-image:
+          cluster: ml-deploy
+          deployment: ml-deploy
+          container: ml-deploy
+          image: gcr.io/kouzoh-p-vamshi-teja/ml-deploy:v1
+      - run:
+          command: kubectl rollout restart deployment/ml-deploy
 workflows:
   ml-deploy:
     jobs:
