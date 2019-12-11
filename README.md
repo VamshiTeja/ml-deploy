@@ -63,5 +63,5 @@ kubectl logs $POD_NAME
 This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD)
 
 ## TODO 
--[ ] Integrate with Tensorflow serving API
--[ ] Improve init time for Flask Server
+- [ ] Integrate with Tensorflow serving API 
+- [ ] Improve init time for Flask Server
