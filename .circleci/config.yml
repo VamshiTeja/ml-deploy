@@ -58,10 +58,10 @@ workflows:
     jobs:
       - build
       - test
-      - deploy_master:
-          requires:
-            - build
-            - test
-          filters:
-            branches:
-              only: master
+    #   - deploy_master:
+    #       requires:
+    #         - build
+    #         - test
+    #       filters:
+    #         branches:
+    #           only: master
