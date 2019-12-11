@@ -38,14 +38,14 @@ You can easily create custom models with the current setup. Just create new mode
 Please raise an issue if you face any difficulty!
 
 ## Deployment
-Setup your gcloud project ($GCLOUD_PROJECT_NAME) and set up GCR for that project
-First build the docker image and push it to Google Container Registery (GCR)
+Setup your gcloud project ($GCLOUD_PROJECT_NAME) and set up GCR for that project. <br/>
+First build the docker image and push it to Google Container Registery (GCR).
 ```bash
 docker build -t gcr.io/$GCLOUD_PROJECT_NAME/ml-deploy:v1 .
 docker push gcr.io/$GOOGLE_PROJECT_NAME/ml-deploy:v1
 ```
 
-create container named "ml-deploy" in google cloud project ($GCLOUD_PROJECT_NAME). Then run the following kubectl commands
+Create container named "ml-deploy" in google cloud project ($GCLOUD_PROJECT_NAME). Then run the following kubectl commands!
 ```bash
 kubectl apply -f kubernetes/
 ```
@@ -60,7 +60,7 @@ kubectl logs $POD_NAME
 ```
 
 ## CI and CD
-This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD)
+This repo is set up with CircleCI for checking builds,tests (CI) and continuos deployment (CD).
 
 ## TODO 
 - [ ] Integrate with Tensorflow serving API 
