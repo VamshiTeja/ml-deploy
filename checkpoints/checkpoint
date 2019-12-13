@@ -1,3 +1,0 @@
-model_checkpoint_path: "mercari-price-prediction_SimpleModel.ckpt-101"
-all_model_checkpoint_paths: "mercari-price-prediction_SimpleModel.ckpt-1"
-all_model_checkpoint_paths: "mercari-price-prediction_SimpleModel.ckpt-101"

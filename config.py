@@ -4,7 +4,7 @@ from easydict import EasyDict as edict
 root = edict()
 cfg = root
 
-root.batch_size = 32
+root.batch_size = 50
 root.learning_rate = 2e-4
 root.num_epochs = 100
 root.num_iters = 10000
@@ -25,8 +25,11 @@ root.dataset = "mercari-price-prediction"
 root.host = '0.0.0.0'
 root.port = '5000'
 
+root.checkpoint_dir= "saved_models/checkpoints/"
 root.brand_model_dir = "saved_models/brand_encoding.pickle"
 root.category_model_dir = "saved_models/category_encoding.pickle"
+root.train_data_path = "data/train.pickle"
+root.val_data_path = "data/val.pickle"
 
 def _merge_a_into_b(a, b):
     """
